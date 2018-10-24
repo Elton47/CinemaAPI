@@ -43,6 +43,8 @@ namespace CinemaAPI.Controllers {
       var category = ctx.Categories.Find(id);
       if (category == null)
         return NotFound();
+      if (ctx.Movies.FirstOrDefault(movie => movie.Category.Id == id) != null)
+        return Conflict("There are existing movies with this category!");
       ctx.Categories.Remove(category);
       ctx.SaveChanges();
       return NoContent();
